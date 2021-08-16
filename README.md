@@ -258,5 +258,165 @@ export default ImageToggleOnMouseOver;
 
 ### `UseEffect`
 
+you can think of `useEffect` as being very similar to `componentDidMount, componentDidUpdate, componentWillUnmount` etc. in react class components.
+
+both class based component functions e.g `componentDidMount, componentDidUpdate, componentWillUnmount`and `useEffect` happens after component renders.
+
+useEffect by definition introduce side effects to react functional components. specifically after the component is first rendered a function associated with `useEffect` is executed and when the same function unmounts the different function associated with useEffect is executed.
+
+##### if we want to add listeners to DOM elements rendered in our functional components, useEffect is the perfect place to add them. it's like we take listener and then take it away.
 
 
+```js
+// pages/syntax.js
+import React, {useEffect} from 'react'
+
+const syntax = () => {
+
+    useEffect(() => {
+        console.log("in useEffect")
+        return () => {
+            console.log("in useEffect cleanup")
+        }
+    },[])
+
+    return (
+        <div>
+            <h1>Syntax page</h1>
+
+        </div>
+    )
+}
+
+export default syntax
+
+```
+Syntax: 
+the first parameter must be a function, which is `useEffect`, using the simple arrow syntax, 
+`console.log("in useEffect")` the way we specify what's get run when this functional component exits is we `return` form this function another function.
+```js
+    return () => {
+        console.log("in useEffect cleanup")
+    }
+```
+the second parameter of useEffect is just an array `[]` that contains list of dependencies for the component.
+
+if `[]` it's left out, then the function in the first parameter is executed both when the component is first rendered and then on every subsequent component update. if this array is empty then useEffect is called only once when the component is first mounted, if you want to call it again before this component is unmounted, you need to have all the values is in this array that changes. in other words the values that the rendered output is dependent on .
+
+those values could things like true or false values of a checkbox field on the screen.
+
+```js
+    const [checkBoxValue, setCheckBoxValue] = useState(false);
+
+    useEffect(() => {
+        console.log("in useEffect")
+        return () => {
+            console.log("in useEffect cleanup")
+        }
+    },[checkBoxValue]);
+
+```
+ Here if the value of the `checkBoxValue` changes then the function in the useEffect will be called again e.g
+ ```js
+        console.log("in useEffect")
+        return () => {
+            console.log("in useEffect cleanup")
+        }
+```
+
+*************************************************************************************************************
+
+```js
+// src/imageToggleOnScroll.js
+
+//........
+
+    useEffect(() => {
+        window.addEventListener("scroll", scrollHandler);
+        return () => {
+            window.removeEventListener("scroll", scrollHandler);
+        }
+    },[]);
+
+//.......
+```
+
+Remember: the first parameter of the useEffect is the function that's get executed when the component mounts, we have to remove this before the component unmounts so let's return from this function another function that removes the listner. 
+
+##### completed
+```js
+// /src/imageToggleOnScroll.js
+import React, {useRef, useEffect, useState} from 'react';
+
+const ImageToggleOnScroll = ({primaryImg, secondaryImg}) => {
+
+    const imageRef = useRef(null);
+
+    const [isLoading, setIsLoading] = useState(true);
+
+    const isInView = () => {
+        const rect = imageRef.current.getBoundingClientRect();
+        return rect.top >= 0 && rect.bottom <= window.innerHeight;
+    };
+
+    const [inView, setInView] = useState(false);
+
+    useEffect(() => {
+        setIsLoading(false);
+        setInView(isInView())
+        window.addEventListener("scroll", scrollHandler);
+        return () => {
+            window.removeEventListener("scroll", scrollHandler);
+        }
+    },[]);
+
+    const scrollHandler = () => {
+        setInView(isInView());
+    }
+
+    return (
+        <img
+      src={
+        isLoading
+          ? 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==' // 1x1gif
+          : inView
+          ? secondaryImg
+          : primaryImg
+      }
+      alt=""
+      ref={imageRef}
+      width="200"
+      height="200"
+    />
+    )
+}
+
+export default ImageToggleOnScroll;
+```
+
+```js
+// /pages/imageChangeOnScroll.js
+import React from 'react'
+import ImageToggleOnScroll from '../src/imageToggleOnScroll'
+
+function imageChangeOnScroll() {
+    return (
+        <div>
+            {[187, 1124, 823, 1269, 1530].map((speakerId) => {
+                return (
+                    <div key={speakerId}>
+                        <ImageToggleOnScroll
+                        primaryImg={`/static/speakers/bw/Speaker-${speakerId}.jpg`}
+                        secondaryImg={`/static/speakers/Speaker-${speakerId}.jpg`}
+                        />
+                    </div>
+                )
+            })}
+        </div>
+    )
+}
+
+export default imageChangeOnScroll;
+```
+
+******************************************************************************************************
