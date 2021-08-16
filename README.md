@@ -86,7 +86,177 @@ now let's output the history array on every key stroke.
 
         //......
 ```
-************************************************************************************************
 
-    ### `useEffect`
+#### Complete file Index.js
+```js
+import React, {useState} from 'react';
+
+
+const InputElement = () => {
+    const [inputText, setInputText] = useState("");
+    const [historyList, setHistoryList] = useState([]);
+
+    return (
+    <div>
+        <input
+         onChange={(e) => {
+         setInputText(e.target.value);
+         setHistoryList([...historyList, e.target.value]);
+        }}
+         type="text"
+         placeholder="Enter some text"
+        />
+        <br />
+        {inputText} 
+        <ul>
+            {historyList.map((rec) => {
+                return <li>{rec}</li>;
+            })}
+        </ul>
+    </div>
+    )
+}
+
+
+export default InputElement;
+```
+
+************************************************************************************************
+    
+    ### `useRef`
+
+Basically it gives our react app a way to directly work with an element in the DOM.
+some times we want direct access to an HTML element for that purpose we use `useRef`.
+###### it's always best to avoid direct access to HTML element but some times it's just neccessary.
+
+let's make a scenario where, when the user hover over the black and white image,then it turns to colorful oon hovering.
+
+#### Now creating a new JavaScript functional component in our pages directory, /pages/imageOnHover.js,
+#### Remember that with the `Next js` framework . all we have to do to create a new javascript file in our pages directory and the name of that file, becomes the `URL route` when we browse to that site.
+
+#### the way Next JS handles the Static resources, like images, is by default, any thing we put in the folder `/public` is available to our running app, as if they were in the base URL of the website.
+
+Create a folder `/React_hooks/public/static/images`
+
+images we are going to referrence all will begin with `/static/`
+
+```js
+function imageOnHover() {
+    return (
+        <div>
+            <img src="/static/speakers/bw/Speaker-187.jpg" alt="" />
+            &nbsp; &nbsp; &nbsp; &nbsp;
+            <img src="/static/speakers/bw/Speaker-1124.jpg" alt="" />   
+        </div>
+    )
+}
+```
+Now accessing the Image tag, using `useRef`.
+Rename the tag with `<ImageToggleOnMouseOver src="...." alt="" />`
+
+
+```js
+function imageOnHover() {
+    return (
+        <div>
+            <imageToggleOnMouseOver
+            primaryImg="/static/speakers/bw/Speaker-187.jpg"
+            secondaryImg="/static/speakers/Speaker-187.jpg"
+            alt="" />
+            &nbsp; &nbsp; &nbsp; &nbsp;
+            <imageToggleOnMouseOver
+            primaryImage="/static/speakers/bw/Speaker-1124.jpg"
+            secondaryImage="/static/speakers/Speaker-1124.jpg"
+            alt="" />
+        </div>
+    )
+}
+```
+
+with Next JS, we like to put our files in `pages` directory, that are the actual URL routes.
+so now let's create a new Source folder `/src/` and put our new functional React component there.
+
+and create a file in Source directory by the name on `/src/ImageToggleOnMouseOver.js`,
+
+```js
+// /src/ImageToggleOnMouseOver.js
+import React from 'react';
+
+const ImageToggleOnMouseOver = ({primaryImg, secondaryImg}) => {
+    return (
+        <img src={primaryImg} alt="Primary" />
+        
+    )
+}
+
+export default ImageToggleOnMouseOver;
+```
+we know we want to handle `onMouseOver, and onMouseOut` events, from our `img` element. so first we add those event attributes to our rendered img element.
+somehow when this events triggered we want to swipe, the native img source attribute. which is at this time on primaryImg.
+
+the way it works, is we creates a declared `const` in this case
+```js
+// /src/ImageToggleOnMouseOver.js
+    const imageRef = useRef(null);
+```
+
+when the component renders it assign the imgRef to our const. in the Image tag.
+and then we use `imageRef.current.src = secondaryImg` or `imageRef.current.src = primaryImg` for the onMouseOver and onMouseOut events respectively.
+
+#### complete File
+```js
+// /pages/imageOnHover.js
+import React from 'react'
+import ImageToggleOnMouseOver from '../src/imageToggleOnMouseOver'
+
+function imageOnHover() {
+    return (
+        <div>
+            <ImageToggleOnMouseOver
+            primaryImg="/static/speakers/bw/Speaker-187.jpg"
+            secondaryImg="/static/speakers/Speaker-187.jpg"
+            alt="" />
+            &nbsp; &nbsp; &nbsp; &nbsp;
+            <ImageToggleOnMouseOver
+            primaryImg="/static/speakers/bw/Speaker-1124.jpg"
+            secondaryImg="/static/speakers/Speaker-1124.jpg"
+            alt="" />
+        </div>
+    )
+}
+
+export default imageOnHover
+```
+
+```js
+// /src/ImageToggleOnMouseOver.js
+import React, {useRef} from 'react';
+
+const ImageToggleOnMouseOver = ({primaryImg, secondaryImg}) => {
+
+    const imageRef = useRef(null);
+
+    return (
+        <img
+        onMouseOver={() => {
+            imageRef.current.src = secondaryImg;
+        }}
+        onMouseOut={() => {
+            imageRef.current.src = primaryImg;
+        }}
+        src={primaryImg}
+        alt="Primary"
+        ref={imageRef}
+         />
+    )
+}
+
+export default ImageToggleOnMouseOver;
+```
+
+***********************************************************************************************************
+
+### `UseEffect`
+
+
 
