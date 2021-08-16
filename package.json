@@ -21,8 +21,14 @@
   },
   "homepage": "https://github.com/haris18896/React_hooks#readme",
   "dependencies": {
+    "eslint": "^7.32.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "next": "^11.1.0",
+    "prettier": "^2.3.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-hooks": "^1.0.1",
+    "react-performance": "0.0.5"
   }
 }

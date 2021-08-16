@@ -1,30 +1,20 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 
 const InputElement = () => {
-    const [inputText, setInputText] = useState("");
-    const [historyList, setHistoryList] = useState([]);
+
+    const random_boolean = Math.random() >= 0.5;
+    const [isLoading, setIsLoading] = useState(random_boolean);
+    useEffect(() => {
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+    });
 
     return (
-    <div>
-        <input
-         onChange={(e) => {
-         setInputText(e.target.value);
-         setHistoryList([...historyList, e.target.value]);
-        }}
-         type="text"
-         placeholder="Enter some text"
-        />
-        <br />
-        {inputText} 
-        <ul>
-            {historyList.map((rec) => {
-                return <li>{rec}</li>;
-            })}
-        </ul>
-    </div>
-    )
-}
+       isLoading ? <div> Loading... </div> : <input type="text" placeholder="Enter some text" />
+    );
+};
 
 
 export default InputElement;
