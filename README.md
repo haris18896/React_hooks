@@ -301,7 +301,7 @@ the first parameter must be a function, which is `useEffect`, using the simple a
 ```
 the second parameter of useEffect is just an array `[]` that contains list of dependencies for the component.
 
-if `[]` it's left out, then the function in the first parameter is executed both when the component is first rendered and then on every subsequent component update. if this array is empty then useEffect is called only once when the component is first mounted, if you want to call it again before this component is unmounted, you need to have all the values is in this array that changes. in other words the values that the rendered output is dependent on .
+if `[]` it's left out (mean there is no array at all), then the function in the first parameter is executed both when the component is first rendered and then on every subsequent component update(`componentDidMount, ComponentDidUpdate`). if this array is empty then useEffect is called only once when the component is first mounted, if you want to call it again before this component is unmounted, you need to have all the values is in this array that changes. in other words the values that the rendered output is dependent on .
 
 those values could things like true or false values of a checkbox field on the screen.
 
