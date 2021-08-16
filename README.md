@@ -301,9 +301,14 @@ the first parameter must be a function, which is `useEffect`, using the simple a
 ```
 the second parameter of useEffect is just an array `[]` that contains list of dependencies for the component.
 
-if `[]` it's left out (mean there is no array at all), then the function in the first parameter is executed both when the component is first rendered and then on every subsequent component update(`componentDidMount, ComponentDidUpdate`). if this array is empty then useEffect is called only once when the component is first mounted, if you want to call it again before this component is unmounted, you need to have all the values is in this array that changes. in other words the values that the rendered output is dependent on .
+0. {{{  if `[]` it's left out (mean there is no array at all), then the function in the first parameter is executed both when the component is first rendered and then on every subsequent component update(`componentDidMount, ComponentDidUpdate`). if this array is empty then useEffect is called only once when the component is first mounted, if you want to call it again before this component is unmounted, you need to have all the values is in this array that changes. in other words the values that the rendered output is dependent on .   }}}
 
-those values could things like true or false values of a checkbox field on the screen.
+1. Giving it an empty array acts like componentDidMount as in, it only runs once.
+
+2. Giving it no second argument acts as both componentDidMount and componentDidUpdate, as in it runs first on mount and then on every re-render.
+
+3. Giving it an array as second argument with any value inside, eg , [variable1] will only execute the code inside your useEffect hook ONCE on mount, as well as whenever that particular variable (variable1) changes.
+
 
 ```js
     const [checkBoxValue, setCheckBoxValue] = useState(false);
