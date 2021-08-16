@@ -1,0 +1,28 @@
+{
+  "name": "React_hooks",
+  "version": "1.0.0",
+  "description": "1. #### `What are React Hooks`\r     it's a React way to allowing you to attach reusable logic to an existing component.\r     ##### Before hooks the most common way to attach logic externally to a component was to use the `Render Props` or `Higher Order Components(HOCs)` pattern. these methods were complex and harder to follow.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haris18896/React_hooks.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haris18896/React_hooks/issues"
+  },
+  "homepage": "https://github.com/haris18896/React_hooks#readme",
+  "dependencies": {
+    "next": "^11.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
