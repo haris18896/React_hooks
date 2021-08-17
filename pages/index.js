@@ -1,20 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+import App from '../src/App.js';
 
-
-const InputElement = () => {
-
-    const random_boolean = Math.random() >= 0.5;
-    const [isLoading, setIsLoading] = useState(random_boolean);
-    useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 2000);
-    });
-
+function index() {
     return (
-       isLoading ? <div> Loading... </div> : <input type="text" placeholder="Enter some text" />
+        <App pageName="Home"/>
     );
 };
 
-
-export default InputElement;
+export default index;
