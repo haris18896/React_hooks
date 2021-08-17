@@ -7,6 +7,7 @@ function Header() {
         return console.log(`SignUp called with email ${email}`);
     };
 
+
     return (
         <div className="jumbotron jumbotronheight">
             <div className="row">
